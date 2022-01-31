@@ -53,7 +53,7 @@ export default function Reminders() {
 		function handleKeyboard(e) {
 			if (e.key === "/" || e.keyCode === 9) {
 				newReminder();
-			} else if (e.keyCode === 8) {
+			} else if (e.keyCode === 8 && !showForm) {
 				deleteReminder(-1);
 			}
 		}

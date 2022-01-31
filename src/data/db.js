@@ -2,15 +2,15 @@ var data = {
     reminders: [
         {
             id: 0,
-            task: "Take out trash 🅿️",
+            task: "Take out trash",
         },
         {
             id: 1,
-            task: "Finish hw 🤯",
+            task: "Finish hw",
         },
         {
             id: 2,
-            task: "Text mom to get milk 🥛",
+            task: "Text mom to get milk",
         },
 
     ]
