@@ -1,25 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import Reminders from "./components/Reminders"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+	return (
+		<div className="App">
+			<div className="bg-slate-200 w-full h-full flex justify-center items-center">
+        <div className="bg-white shadow-md w-[500px] p-8">
+          <Reminders />
+				</div>
+			</div>
+		</div>
+	)
 }
-
-export default App;
