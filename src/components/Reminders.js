@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import Task from "./Task";
-import defaultData from "../data/db"
+import defaultData from "../data/db";
 
 export default function Reminders() {
 	const [reminders, setReminders] = useState(localStorage.getItem("reminders") === null ? [] : JSON.parse(localStorage.getItem("reminders")));
 	const [showForm, setShowForm] = useState(false);
 
-    console.log(reminders)
 
 	function newReminder() {
 		console.log("Creating new reminder");
 		document.getElementById("input").value = "";
-		setShowForm((prev) => !prev);
+		setShowForm(true);
 		setTimeout(() => {
 			document.getElementById("input").focus();
 		}, 100);
@@ -20,7 +19,7 @@ export default function Reminders() {
 	function addReminder(e) {
 		e.preventDefault();
 		if (document.getElementById("input").value.length === 0) {
-			setShowForm((prev) => !prev);
+			setShowForm(false);
 			return;
 		}
 		if (reminders.length === 0) {
@@ -30,7 +29,7 @@ export default function Reminders() {
 				return [...prevReminders, { id: prevReminders[prevReminders.length - 1].id + 1, task: document.getElementById("input").value }];
 			});
 		}
-		setShowForm((prev) => !prev);
+		setShowForm(false);
 	}
 
 	function deleteReminder(i) {
@@ -53,7 +52,7 @@ export default function Reminders() {
 		function handleKeyboard(e) {
 			if (e.key === "/" || e.keyCode === 9) {
 				newReminder();
-			} else if (e.keyCode === 8 && !showForm) {
+			} else if (e.keyCode === 8 && document.activeElement.tagName !== "INPUT") {
 				deleteReminder(-1);
 			}
 		}
@@ -82,7 +81,14 @@ export default function Reminders() {
 			</div>
 			{/* List */}
 			<ul className="divide-y divide-gray-200">
-				{reminders.length === 0 && <ul className="text-gray-500 italic select-none">No reminders! Add your own or <a className="font-semibold text-violet-600 cursor-pointer" onClick={() => setReminders(defaultData.reminders)}>import defaults</a></ul>}
+				{reminders.length === 0 && (
+					<ul className="text-gray-500 italic select-none">
+						No reminders! Add your own or{" "}
+						<a className="font-semibold text-violet-600 cursor-pointer" onClick={() => setReminders(defaultData.reminders)}>
+							import defaults
+						</a>
+					</ul>
+				)}
 				{reminders.map((element) => {
 					return <Task key={element.id} element={element} deleteReminder={deleteReminder} />;
 				})}
