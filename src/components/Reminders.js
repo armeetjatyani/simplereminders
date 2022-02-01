@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import Task from "./Task";
 import defaultData from "../data/db";
+import { Reorder } from "framer-motion";
+import { motion } from "framer-motion";
+
 
 export default function Reminders() {
 	const [reminders, setReminders] = useState(localStorage.getItem("reminders") === null ? [] : JSON.parse(localStorage.getItem("reminders")));
 	const [showForm, setShowForm] = useState(false);
-
 
 	function newReminder() {
 		console.log("Creating new reminder");
@@ -26,7 +28,13 @@ export default function Reminders() {
 			setReminders([{ id: 0, task: document.getElementById("input").value }]);
 		} else {
 			setReminders((prevReminders) => {
-				return [...prevReminders, { id: prevReminders[prevReminders.length - 1].id + 1, task: document.getElementById("input").value }];
+				return [
+					...prevReminders,
+					{
+						id: prevReminders[prevReminders.length - 1].id + 1,
+						task: document.getElementById("input").value,
+					},
+				];
 			});
 		}
 		setShowForm(false);
@@ -69,8 +77,8 @@ export default function Reminders() {
 	return (
 		<div>
 			{/* Header */}
-			<div className="flex justify-between items-center mb-10">
-				<h1 className="font-bold text-3xl select-none">Reminders</h1>
+			<div className="flex items-center justify-between mb-10">
+				<h1 className="text-3xl font-bold select-none">Reminders</h1>
 				<button className="" onClick={newReminder}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 						<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -82,19 +90,25 @@ export default function Reminders() {
 			{/* List */}
 			<ul className="divide-y divide-gray-200">
 				{reminders.length === 0 && (
-					<ul className="text-gray-500 italic select-none">
+					<p className="italic text-gray-500 select-none">
 						No reminders! Add your own or{" "}
-						<a className="font-semibold text-violet-600 cursor-pointer" onClick={() => setReminders(defaultData.reminders)}>
+						<a className="font-semibold cursor-pointer text-violet-600" onClick={() => setReminders(defaultData.reminders)}>
 							import defaults
 						</a>
-					</ul>
+					</p>
 				)}
-				{reminders.map((element) => {
-					return <Task key={element.id} element={element} deleteReminder={deleteReminder} />;
-				})}
-				<li className="flex justify-between items-center py-2">
+				<Reorder.Group axis="y" onReorder={setReminders} values={reminders}>
+					{reminders.map((element) => {
+						return (
+							<Reorder.Item key={element.id} value={element}>
+								<Task element={element} deleteReminder={deleteReminder} />
+							</Reorder.Item>
+						);
+					})}
+				</Reorder.Group>
+				<li className="flex items-center justify-between py-2">
 					<form className={`${showForm ? "block" : "hidden"} flex justify-between items-center w-full relative`} onSubmit={addReminder}>
-						<input autoComplete="false" autoFocus={true} id="input" className="relative outline-violet-600/60 px-2 py-1 block w-full" type="text" placeholder="New reminder..."></input>
+						<input autoComplete="false" autoFocus={true} id="input" className="relative block w-full px-2 py-1 outline-violet-600/60" type="text" placeholder="New reminder..."></input>
 						<button className="absolute right-2" type="submit">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 								<polyline points="20 6 9 17 4 12"></polyline>
