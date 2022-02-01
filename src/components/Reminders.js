@@ -123,10 +123,10 @@ export default function Reminders() {
 							className="absolute right-2"
 							type="submit"
 							whileHover={{
-								scale: 1.2
+								scale: 1.2,
 							}}
 							whileTap={{
-								scale: 1.4
+								scale: 1.4,
 							}}
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -145,10 +145,16 @@ export default function Reminders() {
 						@armeetjatyani
 					</a>
 				</p>
-				<p className="mt-4 text-gray-600">
-					<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Tab</kbd> - New Reminder<br></br>
-					<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Backspace</kbd> - Delete Last Reminder<br></br>
-					<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Esc</kbd> - Cancel New Reminder
+				<p className="flex flex-col items-center justify-center mt-4 text-gray-600">
+					<div>
+						<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Tab</kbd> - New Reminder<br></br>
+					</div>
+					<div>
+						<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Backspace</kbd> - Delete Last Reminder<br></br>
+					</div>
+					<div>
+						<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Esc</kbd> - Cancel New Reminder
+					</div>
 				</p>
 			</div>
 		</div>
