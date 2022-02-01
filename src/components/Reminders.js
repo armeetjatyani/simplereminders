@@ -4,7 +4,6 @@ import defaultData from "../data/db";
 import { Reorder } from "framer-motion";
 import { motion } from "framer-motion";
 
-
 export default function Reminders() {
 	const [reminders, setReminders] = useState(localStorage.getItem("reminders") === null ? [] : JSON.parse(localStorage.getItem("reminders")));
 	const [showForm, setShowForm] = useState(false);
@@ -62,9 +61,8 @@ export default function Reminders() {
 				newReminder();
 			} else if (e.keyCode === 8 && document.activeElement.tagName !== "INPUT") {
 				deleteReminder(-1);
-			} else if(e.keyCode === 27) {
+			} else if (e.keyCode === 27) {
 				setShowForm(false);
-
 			}
 		}
 		document.addEventListener("keydown", handleKeyboard);
@@ -82,16 +80,25 @@ export default function Reminders() {
 			{/* Header */}
 			<div className="flex items-center justify-between mb-10">
 				<h1 className="text-3xl font-bold select-none">Reminders</h1>
-				<button className="" onClick={newReminder}>
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-						<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-						<line x1="12" y1="8" x2="12" y2="16"></line>
-						<line x1="8" y1="12" x2="16" y2="12"></line>
-					</svg>
-				</button>
+				<motion.div
+					whileHover={{
+						rotate: 15,
+					}}
+					whileTap={{
+						rotate: 90,
+					}}
+				>
+					<button className="" onClick={newReminder}>
+						<motion.svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+							<motion.rect x="3" y="3" width="18" height="18" rx="2" ry="2" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}></motion.rect>
+							<motion.line x1="12" y1="8" x2="12" y2="16" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}></motion.line>
+							<motion.line x1="8" y1="12" x2="16" y2="12" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}></motion.line>
+						</motion.svg>
+					</button>
+				</motion.div>
 			</div>
 			{/* List */}
-			<ul className="divide-y divide-gray-200">
+			<ul className="divide-gray-200">
 				{reminders.length === 0 && (
 					<p className="italic text-gray-500 select-none">
 						No reminders! Add your own or{" "}
@@ -112,22 +119,36 @@ export default function Reminders() {
 				<li className="flex items-center justify-between py-2">
 					<form className={`${showForm ? "block" : "hidden"} flex justify-between items-center w-full relative`} onSubmit={addReminder}>
 						<input autoComplete="false" autoFocus={true} id="input" className="relative block w-full px-2 py-1 outline-violet-600/60" type="text" placeholder="New reminder..."></input>
-						<button className="absolute right-2" type="submit">
+						<motion.button
+							className="absolute right-2"
+							type="submit"
+							whileHover={{
+								scale: 1.2
+							}}
+							whileTap={{
+								scale: 1.4
+							}}
+						>
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 								<polyline points="20 6 9 17 4 12"></polyline>
 							</svg>
-						</button>
+						</motion.button>
 					</form>
 				</li>
 			</ul>
 
 			{/* Footer */}
-			<div className="flex items-center justify-center mt-10">
+			<div className="flex flex-col items-center justify-center mt-10">
 				<p>
 					Made by{" "}
 					<a className="font-semibold text-violet-600" href="https://armeet.com" target="_blank" rel="noreferrer">
 						@armeetjatyani
 					</a>
+				</p>
+				<p className="mt-4 text-gray-600">
+					<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Tab</kbd> - New Reminder<br></br>
+					<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Backspace</kbd> - Delete Last Reminder<br></br>
+					<kbd className="px-2 font-mono font-bold bg-gray-300 rounded-md">Esc</kbd> - Cancel New Reminder
 				</p>
 			</div>
 		</div>
