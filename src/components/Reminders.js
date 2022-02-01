@@ -62,6 +62,9 @@ export default function Reminders() {
 				newReminder();
 			} else if (e.keyCode === 8 && document.activeElement.tagName !== "INPUT") {
 				deleteReminder(-1);
+			} else if(e.keyCode === 27) {
+				setShowForm(false);
+
 			}
 		}
 		document.addEventListener("keydown", handleKeyboard);
