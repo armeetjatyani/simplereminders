@@ -108,15 +108,9 @@ export default function Reminders() {
 					</p>
 				)}
 				<div className="max-h-[60%] overflow-y-auto overflow-x-clip">
-					<Reorder.Group axis="y" onReorder={setReminders} values={reminders}>
-						{reminders.map((element) => {
-							return (
-								<Reorder.Item key={element.id} value={element}>
-									<Task element={element} deleteReminder={deleteReminder} />
-								</Reorder.Item>
-							);
-						})}
-					</Reorder.Group>
+					{reminders.map((element) => {
+						return <Task element={element} deleteReminder={deleteReminder} />;
+					})}
 				</div>
 				<li className="flex items-center justify-between py-2">
 					<form className={`${showForm ? "block" : "hidden"} flex justify-between items-center w-full relative`} onSubmit={addReminder}>
