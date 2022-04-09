@@ -120,12 +120,12 @@ export default function Reminders() {
 				>
 					<Droppable droppableId="reminders-1">
 						{(provided, snapshot) => (
-							<div className="max-h-[60%] space-y-2 overflow-y-scroll" ref={provided.innerRef}>
+							<div className="max-h-[60%] overflow-y-scroll" ref={provided.innerRef}>
 								{reminders.map((element, i) => {
 									return (
 										<Draggable key={element.id} draggableId={"draggable-" + element.id} index={i}>
 											{(provided, snapshot) => (
-												<div key={element.id} className={`${snapshot.isDragging ? "border-violet-600 border-2 z-50" : ""} bg-white duration-200 rounded-lg`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+												<div key={element.id} className={`${snapshot.isDragging ? "border-violet-600 border-2 z-50" : ""} bg-white rounded-lg`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
 													<Task key={element.id} element={element} deleteReminder={deleteReminder} />
 												</div>
 											)}
