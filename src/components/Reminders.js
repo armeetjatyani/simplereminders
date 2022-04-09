@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Task from "./Task";
 import defaultData from "../data/db";
-import { Reorder } from "framer-motion";
 import { motion } from "framer-motion";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export default function Reminders() {
 	const [reminders, setReminders] = useState(localStorage.getItem("reminders") === null ? [] : JSON.parse(localStorage.getItem("reminders")));
@@ -107,11 +107,36 @@ export default function Reminders() {
 						</a>
 					</p>
 				)}
-				<div className="max-h-[60%] overflow-y-auto overflow-x-clip">
-					{reminders.map((element) => {
-						return <Task element={element} deleteReminder={deleteReminder} />;
-					})}
-				</div>
+				<DragDropContext
+					onDragEnd={(props) => {
+						const source = props.source?.index;
+						const dest = props.destination?.index;
+
+						setReminders((old) => {
+							old.splice(dest, 0, old.splice(source, 1)[0]);
+							return old;
+						});
+					}}
+				>
+					<Droppable droppableId="reminders-1">
+						{(provided, snapshot) => (
+							<div className="max-h-[60%] space-y-2 overflow-y-scroll" ref={provided.innerRef}>
+								{reminders.map((element, i) => {
+									return (
+										<Draggable key={element.id} draggableId={"draggable-" + element.id} index={i}>
+											{(provided, snapshot) => (
+												<div key={element.id} className={`${snapshot.isDragging ? "border-violet-600 border-2 z-50" : ""} bg-white duration-200 rounded-lg`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+													<Task key={element.id} element={element} deleteReminder={deleteReminder} />
+												</div>
+											)}
+										</Draggable>
+									);
+								})}
+								{provided.placeholder}
+							</div>
+						)}
+					</Droppable>
+				</DragDropContext>
 				<li className="flex items-center justify-between py-2">
 					<form className={`${showForm ? "block" : "hidden"} flex justify-between items-center w-full relative`} onSubmit={addReminder}>
 						<input autoComplete="false" autoFocus={true} id="input" className="relative block w-full px-2 py-1 outline-violet-600/60" type="text" placeholder="New reminder..."></input>
